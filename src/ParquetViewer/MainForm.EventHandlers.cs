@@ -288,34 +288,5 @@ namespace ParquetViewer
             AppSettings.UserSelectedCulture = newCultureInfo;
             UtilityMethods.RestartApplication();
         }
-
-        private QueryEditor? _openQueryEditor = null;
-        private string? _queryEditorSavedQueryText = null;
-        private void openQueryEditorToolToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this._openQueryEditor == null || this._openQueryEditor.IsDisposed)
-            {
-                this._openQueryEditor = new QueryEditor(this.SelectedFields, this.OpenFileOrFolderPath, this.CurrentOffset, this.CurrentMaxRowCount);
-                this._openQueryEditor.FormClosed += (s, args) =>
-                {
-                    //Remember the user's query in case they accidentally close the window
-                    this._queryEditorSavedQueryText = this._openQueryEditor.QueryText;
-                    this._openQueryEditor.Dispose();
-                    this._openQueryEditor = null;
-                };
-                if (!string.IsNullOrWhiteSpace(this._queryEditorSavedQueryText))
-                {
-                    this._openQueryEditor.QueryText = this._queryEditorSavedQueryText;
-                }
-                this._openQueryEditor.StartPosition = FormStartPosition.Manual;
-                this._openQueryEditor.Location = this.Location + new Size(30, 30);
-                this._openQueryEditor.Show(); //don't assign parent so the window can be handled separately by the user
-                MenuBarClickEvent.FireAndForget(MenuBarClickEvent.ActionId.QueryEditor);
-            }
-            else
-            {
-                this._openQueryEditor.BringToFront();
-            }
-        }
     }
 }

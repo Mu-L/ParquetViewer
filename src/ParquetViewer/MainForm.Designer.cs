@@ -35,7 +35,7 @@ namespace ParquetViewer
         {
             components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             mainTableLayoutPanel = new TableLayoutPanel();
             recordsToLabel = new Label();
             recordCountTextBox = new DelayedOnChangedTextBox();
@@ -68,7 +68,6 @@ namespace ParquetViewer
             toolsToolStripMenuItem = new ToolStripMenuItem();
             getSQLCreateTableScriptToolStripMenuItem = new ToolStripMenuItem();
             metadataViewerToolStripMenuItem = new ToolStripMenuItem();
-            openQueryEditorToolToolStripMenuItem = new ToolStripMenuItem();
             helpToolStripMenuItem = new ToolStripMenuItem();
             userGuideToolStripMenuItem = new ToolStripMenuItem();
             shareAnonymousUsageDataToolStripMenuItem = new ToolStripMenuItem();
@@ -108,20 +107,17 @@ namespace ParquetViewer
             mainTableLayoutPanel.Controls.Add(mainGridView, 0, 1);
             mainTableLayoutPanel.Controls.Add(loadAllRowsButton, 10, 0);
             mainTableLayoutPanel.Name = "mainTableLayoutPanel";
-            loadAllRowsButtonTooltip.SetToolTip(mainTableLayoutPanel, resources.GetString("mainTableLayoutPanel.ToolTip"));
             // 
             // recordsToLabel
             // 
             resources.ApplyResources(recordsToLabel, "recordsToLabel");
             recordsToLabel.Name = "recordsToLabel";
-            loadAllRowsButtonTooltip.SetToolTip(recordsToLabel, resources.GetString("recordsToLabel.ToolTip"));
             // 
             // recordCountTextBox
             // 
             resources.ApplyResources(recordCountTextBox, "recordCountTextBox");
             recordCountTextBox.DelayedTextChangedTimeout = 1000;
             recordCountTextBox.Name = "recordCountTextBox";
-            loadAllRowsButtonTooltip.SetToolTip(recordCountTextBox, resources.GetString("recordCountTextBox.ToolTip"));
             recordCountTextBox.DelayedTextChanged += recordsToTextBox_TextChanged;
             recordCountTextBox.KeyPress += recordsToTextBox_KeyPress;
             // 
@@ -129,14 +125,12 @@ namespace ParquetViewer
             // 
             resources.ApplyResources(showRecordsFromLabel, "showRecordsFromLabel");
             showRecordsFromLabel.Name = "showRecordsFromLabel";
-            loadAllRowsButtonTooltip.SetToolTip(showRecordsFromLabel, resources.GetString("showRecordsFromLabel.ToolTip"));
             // 
             // offsetTextBox
             // 
             resources.ApplyResources(offsetTextBox, "offsetTextBox");
             offsetTextBox.DelayedTextChangedTimeout = 1000;
             offsetTextBox.Name = "offsetTextBox";
-            loadAllRowsButtonTooltip.SetToolTip(offsetTextBox, resources.GetString("offsetTextBox.ToolTip"));
             offsetTextBox.DelayedTextChanged += offsetTextBox_TextChanged;
             offsetTextBox.KeyPress += offsetTextBox_KeyPress;
             // 
@@ -146,7 +140,6 @@ namespace ParquetViewer
             runQueryButton.ForeColor = System.Drawing.Color.DarkRed;
             runQueryButton.Image = Resources.Icons.exclamation_icon;
             runQueryButton.Name = "runQueryButton";
-            loadAllRowsButtonTooltip.SetToolTip(runQueryButton, resources.GetString("runQueryButton.ToolTip"));
             runQueryButton.UseVisualStyleBackColor = true;
             runQueryButton.Click += runQueryButton_Click;
             // 
@@ -157,7 +150,6 @@ namespace ParquetViewer
             searchFilterLabel.LinkColor = System.Drawing.Color.Navy;
             searchFilterLabel.Name = "searchFilterLabel";
             searchFilterLabel.TabStop = true;
-            loadAllRowsButtonTooltip.SetToolTip(searchFilterLabel, resources.GetString("searchFilterLabel.ToolTip"));
             searchFilterLabel.LinkClicked += searchFilterLabel_Click;
             // 
             // searchFilterTextBox
@@ -165,7 +157,6 @@ namespace ParquetViewer
             resources.ApplyResources(searchFilterTextBox, "searchFilterTextBox");
             mainTableLayoutPanel.SetColumnSpan(searchFilterTextBox, 2);
             searchFilterTextBox.Name = "searchFilterTextBox";
-            loadAllRowsButtonTooltip.SetToolTip(searchFilterTextBox, resources.GetString("searchFilterTextBox.ToolTip"));
             searchFilterTextBox.Enter += searchFilterTextBox_Enter;
             searchFilterTextBox.KeyPress += searchFilterTextBox_KeyPress;
             searchFilterTextBox.Leave += searchFilterTextBox_Leave;
@@ -175,38 +166,37 @@ namespace ParquetViewer
             resources.ApplyResources(clearFilterButton, "clearFilterButton");
             clearFilterButton.ForeColor = System.Drawing.Color.Black;
             clearFilterButton.Name = "clearFilterButton";
-            loadAllRowsButtonTooltip.SetToolTip(clearFilterButton, resources.GetString("clearFilterButton.ToolTip"));
             clearFilterButton.UseVisualStyleBackColor = true;
             clearFilterButton.Click += clearFilterButton_Click;
             // 
             // mainGridView
             // 
-            resources.ApplyResources(mainGridView, "mainGridView");
             mainGridView.AllowUserToAddRows = false;
             mainGridView.AllowUserToDeleteRows = false;
             mainGridView.AllowUserToOrderColumns = true;
+            resources.ApplyResources(mainGridView, "mainGridView");
             mainGridView.ClipboardCopyMode = DataGridViewClipboardCopyMode.EnableWithoutHeaderText;
             mainGridView.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlLight;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            mainGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.ControlLight;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Segoe UI Semibold", 9F, System.Drawing.FontStyle.Bold);
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
+            mainGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             mainGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             mainGridView.ColumnNameEscapeFormat = "[{0}]";
             mainTableLayoutPanel.SetColumnSpan(mainGridView, 11);
             mainGridView.CopyAsWhereIcon = (System.Drawing.Image)resources.GetObject("mainGridView.CopyAsWhereIcon");
             mainGridView.CopyToClipboardIcon = (System.Drawing.Image)resources.GetObject("mainGridView.CopyToClipboardIcon");
+            mainGridView.DateValueEscapeFormat = "#{0}#";
             mainGridView.EnableHeadersVisualStyles = false;
             mainGridView.Name = "mainGridView";
             mainGridView.ReadOnly = true;
             mainTableLayoutPanel.SetRowSpan(mainGridView, 2);
             mainGridView.ShowCellToolTips = false;
             mainGridView.ShowCopyAsWhereContextMenuItem = true;
-            loadAllRowsButtonTooltip.SetToolTip(mainGridView, resources.GetString("mainGridView.ToolTip"));
             mainGridView.DataBindingComplete += mainGridView_DataBindingComplete;
             // 
             // loadAllRowsButton
@@ -228,17 +218,16 @@ namespace ParquetViewer
             // 
             // mainMenuStrip
             // 
-            resources.ApplyResources(mainMenuStrip, "mainMenuStrip");
             mainMenuStrip.BackColor = System.Drawing.SystemColors.Control;
             mainMenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem, toolsToolStripMenuItem, helpToolStripMenuItem });
+            resources.ApplyResources(mainMenuStrip, "mainMenuStrip");
             mainMenuStrip.Name = "mainMenuStrip";
-            loadAllRowsButtonTooltip.SetToolTip(mainMenuStrip, resources.GetString("mainMenuStrip.ToolTip"));
             // 
             // fileToolStripMenuItem
             // 
-            resources.ApplyResources(fileToolStripMenuItem, "fileToolStripMenuItem");
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { newToolStripMenuItem, openToolStripMenuItem, openFolderToolStripMenuItem, toolStripSeparator, saveAsToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            resources.ApplyResources(fileToolStripMenuItem, "fileToolStripMenuItem");
             // 
             // newToolStripMenuItem
             // 
@@ -254,14 +243,14 @@ namespace ParquetViewer
             // 
             // openFolderToolStripMenuItem
             // 
-            resources.ApplyResources(openFolderToolStripMenuItem, "openFolderToolStripMenuItem");
             openFolderToolStripMenuItem.Name = "openFolderToolStripMenuItem";
+            resources.ApplyResources(openFolderToolStripMenuItem, "openFolderToolStripMenuItem");
             openFolderToolStripMenuItem.Click += openFolderToolStripMenuItem_Click;
             // 
             // toolStripSeparator
             // 
-            resources.ApplyResources(toolStripSeparator, "toolStripSeparator");
             toolStripSeparator.Name = "toolStripSeparator";
+            resources.ApplyResources(toolStripSeparator, "toolStripSeparator");
             // 
             // saveAsToolStripMenuItem
             // 
@@ -271,20 +260,20 @@ namespace ParquetViewer
             // 
             // toolStripSeparator1
             // 
-            resources.ApplyResources(toolStripSeparator1, "toolStripSeparator1");
             toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(toolStripSeparator1, "toolStripSeparator1");
             // 
             // exitToolStripMenuItem
             // 
-            resources.ApplyResources(exitToolStripMenuItem, "exitToolStripMenuItem");
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            resources.ApplyResources(exitToolStripMenuItem, "exitToolStripMenuItem");
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // editToolStripMenuItem
             // 
-            resources.ApplyResources(editToolStripMenuItem, "editToolStripMenuItem");
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { changeFieldsMenuStripButton, changeDateFormatToolStripMenuItem, alwaysLoadAllRecordsToolStripMenuItem, darkModeToolStripMenuItem });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
+            resources.ApplyResources(editToolStripMenuItem, "editToolStripMenuItem");
             // 
             // changeFieldsMenuStripButton
             // 
@@ -294,50 +283,50 @@ namespace ParquetViewer
             // 
             // changeDateFormatToolStripMenuItem
             // 
-            resources.ApplyResources(changeDateFormatToolStripMenuItem, "changeDateFormatToolStripMenuItem");
             changeDateFormatToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { defaultToolStripMenuItem, iSO8601ToolStripMenuItem, customDateFormatToolStripMenuItem });
+            resources.ApplyResources(changeDateFormatToolStripMenuItem, "changeDateFormatToolStripMenuItem");
             changeDateFormatToolStripMenuItem.Name = "changeDateFormatToolStripMenuItem";
             // 
             // defaultToolStripMenuItem
             // 
-            resources.ApplyResources(defaultToolStripMenuItem, "defaultToolStripMenuItem");
             defaultToolStripMenuItem.Name = "defaultToolStripMenuItem";
+            resources.ApplyResources(defaultToolStripMenuItem, "defaultToolStripMenuItem");
             defaultToolStripMenuItem.Tag = "0";
             defaultToolStripMenuItem.Click += DateFormatMenuItem_Click;
             // 
             // iSO8601ToolStripMenuItem
             // 
-            resources.ApplyResources(iSO8601ToolStripMenuItem, "iSO8601ToolStripMenuItem");
             iSO8601ToolStripMenuItem.Name = "iSO8601ToolStripMenuItem";
+            resources.ApplyResources(iSO8601ToolStripMenuItem, "iSO8601ToolStripMenuItem");
             iSO8601ToolStripMenuItem.Tag = "2";
             iSO8601ToolStripMenuItem.Click += DateFormatMenuItem_Click;
             // 
             // customDateFormatToolStripMenuItem
             // 
-            resources.ApplyResources(customDateFormatToolStripMenuItem, "customDateFormatToolStripMenuItem");
             customDateFormatToolStripMenuItem.Name = "customDateFormatToolStripMenuItem";
+            resources.ApplyResources(customDateFormatToolStripMenuItem, "customDateFormatToolStripMenuItem");
             customDateFormatToolStripMenuItem.Tag = "6";
             customDateFormatToolStripMenuItem.Click += DateFormatMenuItem_Click;
             // 
             // alwaysLoadAllRecordsToolStripMenuItem
             // 
-            resources.ApplyResources(alwaysLoadAllRecordsToolStripMenuItem, "alwaysLoadAllRecordsToolStripMenuItem");
             alwaysLoadAllRecordsToolStripMenuItem.Checked = true;
             alwaysLoadAllRecordsToolStripMenuItem.CheckState = CheckState.Checked;
             alwaysLoadAllRecordsToolStripMenuItem.Name = "alwaysLoadAllRecordsToolStripMenuItem";
+            resources.ApplyResources(alwaysLoadAllRecordsToolStripMenuItem, "alwaysLoadAllRecordsToolStripMenuItem");
             alwaysLoadAllRecordsToolStripMenuItem.Click += alwaysLoadAllRecordsToolStripMenuItem_Click;
             // 
             // darkModeToolStripMenuItem
             // 
-            resources.ApplyResources(darkModeToolStripMenuItem, "darkModeToolStripMenuItem");
             darkModeToolStripMenuItem.Name = "darkModeToolStripMenuItem";
+            resources.ApplyResources(darkModeToolStripMenuItem, "darkModeToolStripMenuItem");
             darkModeToolStripMenuItem.Click += darkModeToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 
-            resources.ApplyResources(toolsToolStripMenuItem, "toolsToolStripMenuItem");
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { getSQLCreateTableScriptToolStripMenuItem, metadataViewerToolStripMenuItem, openQueryEditorToolToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { getSQLCreateTableScriptToolStripMenuItem, metadataViewerToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            resources.ApplyResources(toolsToolStripMenuItem, "toolsToolStripMenuItem");
             // 
             // getSQLCreateTableScriptToolStripMenuItem
             // 
@@ -352,63 +341,57 @@ namespace ParquetViewer
             metadataViewerToolStripMenuItem.Name = "metadataViewerToolStripMenuItem";
             metadataViewerToolStripMenuItem.Click += MetadataViewerToolStripMenuItem_Click;
             // 
-            // openQueryEditorToolToolStripMenuItem
-            // 
-            resources.ApplyResources(openQueryEditorToolToolStripMenuItem, "openQueryEditorToolToolStripMenuItem");
-            openQueryEditorToolToolStripMenuItem.Name = "openQueryEditorToolToolStripMenuItem";
-            openQueryEditorToolToolStripMenuItem.Click += openQueryEditorToolToolStripMenuItem_Click;
-            // 
             // helpToolStripMenuItem
             // 
-            resources.ApplyResources(helpToolStripMenuItem, "helpToolStripMenuItem");
             helpToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { userGuideToolStripMenuItem, shareAnonymousUsageDataToolStripMenuItem, languageToolStripMenuItem, aboutToolStripMenuItem });
             helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            resources.ApplyResources(helpToolStripMenuItem, "helpToolStripMenuItem");
             // 
             // userGuideToolStripMenuItem
             // 
-            resources.ApplyResources(userGuideToolStripMenuItem, "userGuideToolStripMenuItem");
             userGuideToolStripMenuItem.Image = Resources.Icons.external_link_icon;
             userGuideToolStripMenuItem.Name = "userGuideToolStripMenuItem";
+            resources.ApplyResources(userGuideToolStripMenuItem, "userGuideToolStripMenuItem");
             userGuideToolStripMenuItem.Click += userGuideToolStripMenuItem_Click;
             // 
             // shareAnonymousUsageDataToolStripMenuItem
             // 
-            resources.ApplyResources(shareAnonymousUsageDataToolStripMenuItem, "shareAnonymousUsageDataToolStripMenuItem");
             shareAnonymousUsageDataToolStripMenuItem.Name = "shareAnonymousUsageDataToolStripMenuItem";
+            resources.ApplyResources(shareAnonymousUsageDataToolStripMenuItem, "shareAnonymousUsageDataToolStripMenuItem");
             shareAnonymousUsageDataToolStripMenuItem.CheckedChanged += shareAnonymousUsageDataToolStripMenuItem_CheckedChanged;
             shareAnonymousUsageDataToolStripMenuItem.Click += shareAnonymousUsageDataToolStripMenuItem_Click;
             // 
             // languageToolStripMenuItem
             // 
-            resources.ApplyResources(languageToolStripMenuItem, "languageToolStripMenuItem");
             languageToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { englishToolStripMenuItem, turkishToolStripMenuItem });
             languageToolStripMenuItem.Image = Resources.Icons.localization_icon;
             languageToolStripMenuItem.Name = "languageToolStripMenuItem";
+            resources.ApplyResources(languageToolStripMenuItem, "languageToolStripMenuItem");
             // 
             // englishToolStripMenuItem
             // 
-            resources.ApplyResources(englishToolStripMenuItem, "englishToolStripMenuItem");
             englishToolStripMenuItem.Name = "englishToolStripMenuItem";
+            resources.ApplyResources(englishToolStripMenuItem, "englishToolStripMenuItem");
             englishToolStripMenuItem.Tag = "en-US";
             englishToolStripMenuItem.Click += languageToolStripMenuItem_Click;
             // 
             // turkishToolStripMenuItem
             // 
-            resources.ApplyResources(turkishToolStripMenuItem, "turkishToolStripMenuItem");
             turkishToolStripMenuItem.Name = "turkishToolStripMenuItem";
+            resources.ApplyResources(turkishToolStripMenuItem, "turkishToolStripMenuItem");
             turkishToolStripMenuItem.Tag = "tr-TR";
             turkishToolStripMenuItem.Click += languageToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
-            resources.ApplyResources(aboutToolStripMenuItem, "aboutToolStripMenuItem");
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            resources.ApplyResources(aboutToolStripMenuItem, "aboutToolStripMenuItem");
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
             // showingRecordCountStatusBarLabel
             // 
-            resources.ApplyResources(showingRecordCountStatusBarLabel, "showingRecordCountStatusBarLabel");
             showingRecordCountStatusBarLabel.Name = "showingRecordCountStatusBarLabel";
+            resources.ApplyResources(showingRecordCountStatusBarLabel, "showingRecordCountStatusBarLabel");
             // 
             // actualShownRecordCountLabel
             // 
@@ -417,19 +400,19 @@ namespace ParquetViewer
             // 
             // recordsTextStatusBarLabel
             // 
-            resources.ApplyResources(recordsTextStatusBarLabel, "recordsTextStatusBarLabel");
             recordsTextStatusBarLabel.Name = "recordsTextStatusBarLabel";
+            resources.ApplyResources(recordsTextStatusBarLabel, "recordsTextStatusBarLabel");
             // 
             // springStatusBarLabel
             // 
-            resources.ApplyResources(springStatusBarLabel, "springStatusBarLabel");
             springStatusBarLabel.Name = "springStatusBarLabel";
+            resources.ApplyResources(springStatusBarLabel, "springStatusBarLabel");
             springStatusBarLabel.Spring = true;
             // 
             // showingStatusBarLabel
             // 
-            resources.ApplyResources(showingStatusBarLabel, "showingStatusBarLabel");
             showingStatusBarLabel.Name = "showingStatusBarLabel";
+            resources.ApplyResources(showingStatusBarLabel, "showingStatusBarLabel");
             showingStatusBarLabel.Click += showingStatusBarLabel_Click;
             // 
             // recordCountStatusBarLabel
@@ -439,8 +422,8 @@ namespace ParquetViewer
             // 
             // outOfStatusBarLabel
             // 
-            resources.ApplyResources(outOfStatusBarLabel, "outOfStatusBarLabel");
             outOfStatusBarLabel.Name = "outOfStatusBarLabel";
+            resources.ApplyResources(outOfStatusBarLabel, "outOfStatusBarLabel");
             // 
             // totalRowCountStatusBarLabel
             // 
@@ -449,11 +432,10 @@ namespace ParquetViewer
             // 
             // mainStatusStrip
             // 
-            resources.ApplyResources(mainStatusStrip, "mainStatusStrip");
             mainStatusStrip.Items.AddRange(new ToolStripItem[] { showingRecordCountStatusBarLabel, actualShownRecordCountLabel, recordsTextStatusBarLabel, springStatusBarLabel, showingStatusBarLabel, recordCountStatusBarLabel, outOfStatusBarLabel, totalRowCountStatusBarLabel });
+            resources.ApplyResources(mainStatusStrip, "mainStatusStrip");
             mainStatusStrip.Name = "mainStatusStrip";
             mainStatusStrip.ShowItemToolTips = true;
-            loadAllRowsButtonTooltip.SetToolTip(mainStatusStrip, resources.GetString("mainStatusStrip.ToolTip"));
             // 
             // exportFileDialog
             // 
@@ -468,8 +450,8 @@ namespace ParquetViewer
             // 
             // MainForm
             // 
-            resources.ApplyResources(this, "$this");
             AllowDrop = true;
+            resources.ApplyResources(this, "$this");
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(mainStatusStrip);
             Controls.Add(mainTableLayoutPanel);
@@ -478,7 +460,6 @@ namespace ParquetViewer
             KeyPreview = true;
             MainMenuStrip = mainMenuStrip;
             Name = "MainForm";
-            loadAllRowsButtonTooltip.SetToolTip(this, resources.GetString("$this.ToolTip"));
             Load += MainForm_Load;
             DragDrop += MainForm_DragDrop;
             DragEnter += MainForm_DragEnter;
@@ -548,7 +529,6 @@ namespace ParquetViewer
         private ToolStripMenuItem languageToolStripMenuItem;
         private ToolStripMenuItem englishToolStripMenuItem;
         private ToolStripMenuItem turkishToolStripMenuItem;
-        private ToolStripMenuItem openQueryEditorToolToolStripMenuItem;
     }
 }
 

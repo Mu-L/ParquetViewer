@@ -2,7 +2,6 @@ using ParquetViewer.Analytics;
 using ParquetViewer.Controls;
 using ParquetViewer.Engine;
 using ParquetViewer.Engine.Exceptions;
-using ParquetViewer.Exceptions;
 using ParquetViewer.Helpers;
 using System;
 using System.Collections.Generic;
@@ -51,7 +50,6 @@ namespace ParquetViewer
                 this.mainGridView.ClearQuickPeekForms();
                 this.mainGridView.ClearColumnFormatOverrides();
                 this.ResetGetSQLCreateTableScriptToolStripMenuItemToolTipText();
-                this._queryEditorSavedQueryText = null;
 
                 if (string.IsNullOrWhiteSpace(this._openFileOrFolderPath))
                 {
@@ -284,6 +282,8 @@ namespace ParquetViewer
             if (this._openParquetEngine is null)
                 return;
 
+#if RELEASE_SELFCONTAINED
+            //Self contained release has both Parquet.NET and DuckDB engines included as the file size remains the same.
             try
             {
                 await this.LoadFileToGridviewImpl(this._openParquetEngine);
@@ -306,6 +306,9 @@ namespace ParquetViewer
                     throw new RowsReadException(unhandledEx, duckDbEx);
                 }
             }
+#else
+            await this.LoadFileToGridviewImpl(this._openParquetEngine);
+#endif
         }
 
         private async Task LoadFileToGridviewImpl(IParquetEngine engine)
@@ -402,9 +405,9 @@ namespace ParquetViewer
 
                 if (wasSuccessful)
                 {
-                    var engineType = this._openParquetEngine is Engine.DuckDB.ParquetEngine
-                        ? FileOpenEvent.ParquetEngineTypeId.DuckDB
-                        : FileOpenEvent.ParquetEngineTypeId.ParquetNET;
+                    var engineType = this._openParquetEngine is Engine.ParquetNET.ParquetEngine
+                        ? FileOpenEvent.ParquetEngineTypeId.ParquetNET
+                        : FileOpenEvent.ParquetEngineTypeId.DuckDB;
 
                     FileOpenEvent.FireAndForget(
                         Directory.Exists(this.OpenFileOrFolderPath),

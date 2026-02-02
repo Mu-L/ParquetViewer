@@ -26,7 +26,7 @@ jobs:
       - name: Run PowerShell script
         shell: pwsh
         run: |
-            # Find all .resx files for Turkish (tr)
+            # Find all .resx files for Turkish (tr) as that is our source of truth
             $turkishResxFiles = Get-ChildItem -Path . -Recurse -Filter "*.tr.resx"
         
             # Array to hold all combined translation entries

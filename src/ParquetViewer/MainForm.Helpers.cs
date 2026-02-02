@@ -56,7 +56,7 @@ namespace ParquetViewer
                     this.exportFileDialog.FilterIndex = (int)defaultFileType + 1;
 
                     if (this._openParquetEngine?.Metadata.SchemaTree?.Children.All(s => s.IsPrimitive) == true
-                        && this._openParquetEngine is not Engine.DuckDB.ParquetEngine)
+                        && this._openParquetEngine is Engine.ParquetNET.ParquetEngine)
                     {
                         this.exportFileDialog.Filter += "|Parquet file (*.parquet)|*.parquet";
                     }
@@ -189,9 +189,7 @@ namespace ParquetViewer
             else if (selectedFileType == FileType.PARQUET)
             {
                 ArgumentNullException.ThrowIfNull(engine);
-                var engineTypeName = engine is Engine.ParquetNET.ParquetEngine ? "ParquetNET" :
-                    engine is Engine.DuckDB.ParquetEngine ? "DuckDB" :
-                    "Unknown";
+                var engineTypeName = engine is Engine.ParquetNET.ParquetEngine ? "ParquetNET" : "DuckDB";
                 return WriteDataToParquetFile(engine, dataTable, filePath, cancellationToken, progress, engineTypeName);
             }
             else

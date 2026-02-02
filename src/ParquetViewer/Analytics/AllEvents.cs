@@ -126,7 +126,6 @@ namespace ParquetViewer.Analytics
             UserGuide,
             DragDrop,
             LoadAllRows,
-            QueryEditor,
         }
     }
 
