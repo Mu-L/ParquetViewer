@@ -298,13 +298,19 @@ namespace ParquetViewer
                 {
                     var duckDbEngine = await Engine.DuckDB.ParquetEngine.OpenFileOrFolderAsync(this.OpenFileOrFolderPath!, default);
                     await LoadFileToGridviewImpl(duckDbEngine);
-                    this.SwapEngines(duckDbEngine);
+                    SwapEngines(duckDbEngine);
                 }
                 catch (Exception duckDbEx)
                 {
                     //If DuckDB fails too, bail
-                    throw new RowsReadException(unhandledEx, duckDbEx);
+                    throw new Exceptions.RowsReadException(unhandledEx, duckDbEx);
                 }
+            }
+
+            void SwapEngines(IParquetEngine newEngine)
+            {
+                this._openParquetEngine.DisposeSafely();
+                this._openParquetEngine = newEngine;
             }
 #else
             await this.LoadFileToGridviewImpl(this._openParquetEngine);
@@ -366,9 +372,9 @@ namespace ParquetViewer
             {
                 HandleSomeFilesSkippedException(ex);
             }
-            catch (Engine.Exceptions.FileReadException ex)
+            catch (FileReadException ex)
             {
-                MainForm.HandleFileReadException(ex);
+                HandleFileReadException(ex);
             }
             catch (MultipleSchemasFoundException ex)
             {
@@ -531,12 +537,6 @@ namespace ParquetViewer
                 //We default to English
                 this.englishToolStripMenuItem.Checked = true;
             }
-        }
-
-        private void SwapEngines(IParquetEngine newEngine)
-        {
-            this._openParquetEngine.DisposeSafely();
-            this._openParquetEngine = newEngine;
         }
     }
 }
