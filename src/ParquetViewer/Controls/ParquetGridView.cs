@@ -82,7 +82,6 @@ namespace ParquetViewer.Controls
             this.clickableColumnIndexes.Clear();
             base.OnDataSourceChanged(e); //This runs OnColumnAdded() for all columns before continuing.
 
-            UpdateDateFormats();
             SetColumnCellStyles();
             AutoSizeColumns();
         }
@@ -121,7 +120,14 @@ namespace ParquetViewer.Controls
                         }
                     }
                 }
+                else
+                {
+                    //Reset any changed stylings
+                    column.DefaultCellStyle = new DataGridViewCellStyle();
+                }
             }
+
+            UpdateDateFormats();
         }
 
         public void UpdateDateFormats()
@@ -1185,19 +1191,18 @@ namespace ParquetViewer.Controls
 
         private void StyleFrozenColumns()
         {
-            //First reset styles for all columns
+            //First reset styles for all column headers
             for (var i = 0; i < this.Columns.Count; i++)
             {
-                //Preserve any formatting
-                var defaultFormat = this.Columns[i].DefaultCellStyle.Format;
-
-                this.Columns[i].DefaultCellStyle = new DataGridViewCellStyle() { Format = defaultFormat };
                 this.Columns[i].HeaderCell.Style = new DataGridViewCellStyle();
             }
 
+            //Reset cells
+            SetColumnCellStyles();
+
             //Now style frozen ones (We need to go by DisplayIndex in case the user re-arranged the columns)
             var columnsInOrderByDisplayIndex = this.Columns.AsEnumerable().OrderBy(col => col.DisplayIndex);
-            foreach(var column in columnsInOrderByDisplayIndex)
+            foreach (var column in columnsInOrderByDisplayIndex)
             {
                 if (!column.Frozen)
                     break;
