@@ -424,7 +424,8 @@ namespace ParquetViewer.Controls
 
                         this.ClearSelection();
                         this.FirstDisplayedScrollingRowIndex = cellToReturnTo.RowIndex;
-                        this.FirstDisplayedScrollingColumnIndex = tag.SourceColumnIndex;
+                        if (!this.Columns[tag.SourceColumnIndex].Frozen)
+                            this.FirstDisplayedScrollingColumnIndex = tag.SourceColumnIndex;
                         this[cellToReturnTo.ColumnIndex, cellToReturnTo.RowIndex].Selected = true;
                         this.CurrentCell = cellToReturnTo;
                         this.Focus();
@@ -606,7 +607,9 @@ namespace ParquetViewer.Controls
 
         protected override void OnColumnHeaderMouseClick(DataGridViewCellMouseEventArgs e)
         {
-            this.Cursor = Cursors.WaitCursor;
+            if (e.Button == MouseButtons.Left)
+                this.Cursor = Cursors.WaitCursor;
+
             try
             {
                 base.OnColumnHeaderMouseClick(e); //This will trigger the sort operation and the OnSorted event if it's a left-click
