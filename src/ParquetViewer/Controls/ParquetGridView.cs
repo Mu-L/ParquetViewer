@@ -1195,14 +1195,15 @@ namespace ParquetViewer.Controls
                 this.Columns[i].HeaderCell.Style = new DataGridViewCellStyle();
             }
 
-            //Now style frozen ones
-            for (var i = 0; i < this.Columns.Count; i++)
+            //Now style frozen ones (We need to go by DisplayIndex in case the user re-arranged the columns)
+            var columnsInOrderByDisplayIndex = this.Columns.AsEnumerable().OrderBy(col => col.DisplayIndex);
+            foreach(var column in columnsInOrderByDisplayIndex)
             {
-                if (!this.Columns[i].Frozen)
+                if (!column.Frozen)
                     break;
 
-                this.Columns[i].DefaultCellStyle.BackColor = this.GridTheme.FrozenCellBackgroundColor;
-                this.Columns[i].HeaderCell.Style.BackColor = this.GridTheme.FrozenColumnHeaderColor;
+                column.DefaultCellStyle.BackColor = this.GridTheme.FrozenCellBackgroundColor;
+                column.HeaderCell.Style.BackColor = this.GridTheme.FrozenColumnHeaderColor;
             }
         }
 

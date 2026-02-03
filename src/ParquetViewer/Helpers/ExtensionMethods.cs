@@ -90,6 +90,14 @@ namespace ParquetViewer.Helpers
             }
         }
 
+        public static IEnumerable<DataGridViewColumn> AsEnumerable(this DataGridViewColumnCollection columns)
+        {
+            foreach (DataGridViewColumn column in columns)
+            {
+                yield return column;
+            }
+        }
+
         /// <summary>
         /// Returns true if the type is a "simple" type. Basically anything that isn't a class, struct or array.
         /// </summary>
