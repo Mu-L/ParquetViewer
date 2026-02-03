@@ -333,4 +333,7 @@ Tercihinizi Düzen menüsünden istediğiniz zaman değiştirebilirsiniz.</value
   <data name="ByteArraysNotSupportedErrorTitle" xml:space="preserve">
     <value>Byte[] tipli sonuçlar desteklenmemektedir</value>
   </data>
+  <data name="FrozenColumnText" xml:space="preserve">
+    <value>Dondur</value>
+  </data>
 </root>

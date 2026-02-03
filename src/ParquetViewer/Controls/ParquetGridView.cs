@@ -54,6 +54,7 @@ namespace ParquetViewer.Controls
         private DataGridViewCellStyle? hyperlinkCellStyleCache;
         private bool isLeftClickButtonDown = false;
         private ContextMenuStrip? _contextMenu = null;
+        private ContextMenuStrip? _headerContextMenu = null;
         private static readonly Regex _validColumnNameRegex = new Regex("^[a-zA-Z0-9_]+$");
 
         //We keep track of format overrides with the column name so we can keep formatting the same if the user adds/removes fields from the same file
@@ -606,7 +607,14 @@ namespace ParquetViewer.Controls
 
                 if (e.Button == MouseButtons.Right)
                 {
-                    ShowDisplayFormatOptions(e.ColumnIndex);
+                    this._headerContextMenu?.Dispose();
+                    this._headerContextMenu = new ContextMenuStrip();
+
+                    AddFrozenOption(this._headerContextMenu.Items, e.ColumnIndex);
+                    AddDisplayFormatOptions(this._headerContextMenu.Items, e.ColumnIndex);
+
+                    if (this._headerContextMenu.Items.Count > 0)
+                        this._headerContextMenu.Show(Cursor.Position);
                 }
             }
             finally
@@ -875,9 +883,6 @@ namespace ParquetViewer.Controls
             this.DefaultCellStyle.ForeColor = this.GridTheme.TextColor;
             this.DefaultCellStyle.SelectionBackColor = this.GridTheme.SelectionBackColor;
 
-            this.ColumnHeadersDefaultCellStyle.BackColor = this.GridTheme.ColumnHeaderColor;
-            this.ColumnHeadersDefaultCellStyle.ForeColor = this.GridTheme.TextColor;
-
             this.RowHeadersDefaultCellStyle.BackColor = this.GridTheme.RowHeaderColor;
             this.RowHeadersDefaultCellStyle.ForeColor = this.GridTheme.TextColor;
             this.RowHeadersDefaultCellStyle.SelectionBackColor = this.GridTheme.SelectionBackColor;
@@ -897,6 +902,7 @@ namespace ParquetViewer.Controls
                 WrapMode = DataGridViewTriState.True
             };
 
+            StyleFrozenColumns();
             SetColumnCellStyles();
         }
 
@@ -1056,12 +1062,13 @@ namespace ParquetViewer.Controls
             return queryBuilder.ToString();
         }
 
-        private void ShowDisplayFormatOptions(int columnIndex)
+        private void AddDisplayFormatOptions(ToolStripItemCollection contextMenu, int columnIndex)
         {
             //If this is a byte array column, show available formatting options
             if (this.Columns[columnIndex].ValueType.ImplementsInterface<IByteArrayValue>()
                 && this.Columns[columnIndex].CellTemplate?.GetType() != typeof(AudioPlayerDataGridViewCell))
             {
+                AddSeperatorIfNeeded();
                 const int RECORDS_TO_INTERSECT_COUNT = 8;
 
                 //Find a few different non-null values and find the common display formats that all of them support.
@@ -1086,7 +1093,6 @@ namespace ParquetViewer.Controls
                     possibleDisplayFormats = [default];
                 }
 
-                var columnHeaderContextMenu = new ContextMenuStrip();
                 foreach (var supportedFormat in possibleDisplayFormats)
                 {
                     var columnName = this.Columns[columnIndex].Name;
@@ -1102,20 +1108,17 @@ namespace ParquetViewer.Controls
                         this.Refresh(); //Force a re-draw to render updated format
                         this.AutoSizeColumns(columnIndex); //Re-size the column
                     };
-                    columnHeaderContextMenu.Items.Add(toolstripMenuItem);
+                    contextMenu.Add(toolstripMenuItem);
 
                     if (!byteArrayColumnsWithFormatOverrides.TryGetValue(columnName, out var displayFormat))
                         displayFormat = default;
 
                     toolstripMenuItem.Checked = displayFormat == supportedFormat;
                 }
-
-                columnHeaderContextMenu.Show(Cursor.Position);
             }
             else if (this.Columns[columnIndex].ValueType == typeof(float) || this.Columns[columnIndex].ValueType == typeof(double))
             {
-                var columnHeaderContextMenu = new ContextMenuStrip();
-
+                AddSeperatorIfNeeded();
                 var columnName = this.Columns[columnIndex].Name;
                 if (!floatColumnsWithFormatOverrides.TryGetValue(columnName, out var displayFormat))
                     displayFormat = default;
@@ -1134,7 +1137,7 @@ namespace ParquetViewer.Controls
                     this.Refresh(); //Force a re-draw to render updated format
                     this.AutoSizeColumns(columnIndex); //Re-size the column
                 };
-                columnHeaderContextMenu.Items.Add(scientificNotationMenuItem);
+                contextMenu.Add(scientificNotationMenuItem);
 
                 var decimalNotationMenuItem = new ToolStripMenuItem(Resources.Strings.DecimalFormatting)
                 { Checked = displayFormat == FloatDisplayFormat.Decimal };
@@ -1150,9 +1153,56 @@ namespace ParquetViewer.Controls
                     this.Refresh(); //Force a re-draw to render updated format
                     this.AutoSizeColumns(columnIndex); //Re-size the column
                 };
-                columnHeaderContextMenu.Items.Add(decimalNotationMenuItem);
+                contextMenu.Add(decimalNotationMenuItem);
+            }
 
-                columnHeaderContextMenu.Show(Cursor.Position);
+            void AddSeperatorIfNeeded()
+            {
+                if (contextMenu.Count > 0)
+                    contextMenu.Add(new ToolStripSeparator());
+            }
+        }
+
+        private void AddFrozenOption(ToolStripItemCollection items, int columnIndex)
+        {
+            var column = this.Columns[columnIndex];
+
+            //Only show the option to freeze if the horizontal scroll bar is visible or if the column is already frozen
+            if (!column.Frozen && !this.HorizontalScrollBar.Visible)
+                return;
+
+            var menuItem = new ToolStripMenuItem(Resources.Strings.FrozenColumnText)
+            { Checked = column.Frozen };
+
+            menuItem.Click += (object? _, EventArgs _) =>
+            {
+                column.Frozen = !column.Frozen;
+                this.StyleFrozenColumns();
+            };
+
+            items.Add(menuItem);
+        }
+
+        private void StyleFrozenColumns()
+        {
+            //First reset styles for all columns
+            for (var i = 0; i < this.Columns.Count; i++)
+            {
+                //Preserve any formatting
+                var defaultFormat = this.Columns[i].DefaultCellStyle.Format;
+
+                this.Columns[i].DefaultCellStyle = new DataGridViewCellStyle() { Format = defaultFormat };
+                this.Columns[i].HeaderCell.Style = new DataGridViewCellStyle();
+            }
+
+            //Now style frozen ones
+            for (var i = 0; i < this.Columns.Count; i++)
+            {
+                if (!this.Columns[i].Frozen)
+                    break;
+
+                this.Columns[i].DefaultCellStyle.BackColor = this.GridTheme.FrozenCellBackgroundColor;
+                this.Columns[i].HeaderCell.Style.BackColor = this.GridTheme.FrozenColumnHeaderColor;
             }
         }
 
@@ -1332,6 +1382,9 @@ namespace ParquetViewer.Controls
             //DGV doesn't call Dispose on individual cells when it is disposed. So we need to manually 
             //dispose any AudioPlayerDataGridViewCells to free resources and stop ongoing playback.
             this.DisposeAudioCells();
+
+            this._contextMenu?.Dispose();
+            this._headerContextMenu?.Dispose();
 
             base.Dispose(disposing);
         }

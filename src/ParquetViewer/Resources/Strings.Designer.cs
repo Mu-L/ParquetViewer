@@ -361,6 +361,15 @@ namespace ParquetViewer.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Frozen.
+        /// </summary>
+        internal static string FrozenColumnText {
+            get {
+                return ResourceManager.GetString("FrozenColumnText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Image saved to {0}.
         /// </summary>
         internal static string ImageSavedToDiskMessage {
